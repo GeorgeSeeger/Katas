@@ -1,36 +1,31 @@
 class RomanNumerals
 
-
   def self.encode(number)
-    number.to_s.split('').map.with_index{ |e, i|
-      NUMERALS[number.to_s.length-i-1][e.to_i]
-    }.join
+    answer = ''
+    NUMERALS.each{ |k, v|
+      answer += k.to_s * (number / v)
+      number %= v
+    }
+    answer
   end
 
   def self.decode(numeral)
-    total = numeral.split('').map{|e| SYMBOLS[e.to_sym]}.reduce(:+)
-    total -= EXCEPTIONS.keys.map{ |k|
-       numeral.scan(/(?=#{k.to_s})/).count * EXCEPTIONS[k]
-     }.reduce(:+)
+    answer = 0
+    while numeral.length > 0
+      NUMERALS.each do |k, v|
+        if numeral.slice(0, k.to_s.length) == k.to_s then
+          answer += v
+          numeral.slice!(0, k.to_s.length)
+        end
+      end
+    end
+    answer
   end
 
   private
 
-  NUMERALS = [['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX'],
-              ['', 'X', 'XX', 'XXX', 'XL', 'L', 'LX', 'LXX', 'LXXX', 'XC'],
-              ['', 'C', 'CC', 'CCC', 'CD', 'D', 'DC', 'DCC', 'DCCC', 'CM'],
-              ['', 'M', 'MM', 'MMM']]
-  SYMBOLS = { I: 1,
-              V: 5,
-              X: 10,
-              L: 50,
-              C: 100,
-              D: 500,
-              M: 1000 }
-  EXCEPTIONS={IV: 2,
-              IX: 2,
-              XL: 20,
-              XC: 20,
-              CD: 200,
-              CM: 200 }
+  NUMERALS = {M: 1000, CM: 900, D: 500, CD: 400,
+              C: 100, XC: 90, L: 50, XL: 40,
+              X: 10, IX: 9, V: 5, IV: 4, I: 1}
+
 end
