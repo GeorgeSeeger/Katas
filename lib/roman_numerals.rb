@@ -1,26 +1,20 @@
 class RomanNumerals
 
-  def self.encode(number)
-    answer = ''
-    NUMERALS.each{ |k, v|
-      answer += k.to_s * (number / v)
-      number %= v
-    }
-    answer
-  end
-
-  def self.decode(numeral)
-    answer = 0
-    while numeral.length > 0
-      NUMERALS.each do |k, v|
-        if numeral.slice(0, k.to_s.length) == k.to_s then
-          answer += v
-          numeral.slice!(0, k.to_s.length)
-        end
+    def self.encode(number)
+      return '' if number.zero?
+      NUMERALS.each do |roman, value|
+        return roman.to_s + self.encode(number - value) if number >= value
       end
     end
-    answer
-  end
+
+    def self.decode(numeral)
+      return 0 if numeral.nil? || numeral.empty?
+      if NUMERALS.has_key?(numeral[0,2].to_sym) then
+        return NUMERALS[numeral[0,2].to_sym] + self.decode(numeral[2..-1])
+      elsif NUMERALS.has_key?(numeral[0].to_sym)
+        return NUMERALS[numeral[0].to_sym] + self.decode(numeral[1..-1])
+      end
+    end
 
   private
 
