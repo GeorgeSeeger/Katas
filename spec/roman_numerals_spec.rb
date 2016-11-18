@@ -25,9 +25,10 @@ describe RomanNumerals do
                     XCIX: 99}
     very_big_tests={MMMCMXCIX: 3999,
                     MDCLXVI: 1666,
+                    MMCCLII: 2252,
                     MMXVI: 2016,
                     MMCMLVI: 2956,
-                    MDCCCLXXXVIII: 1888,
+                    MDCCLXXVII: 1777,
                     CCCLVI: 356,
                     MMMDCCCLXXXVIII: 3888,
                     MCDXLIV: 1444,
